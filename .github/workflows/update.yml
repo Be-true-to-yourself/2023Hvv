@@ -1,0 +1,26 @@
+name: Daily Update
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 每天UTC时间 00:00 触发
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Git user
+        run: |
+          git config --global user.name "Be-true-to-yourself"
+          git config --global user.email "lslhandsome123@gmail.com"
+
+      - name: Fetch upstream changes
+        run: |
+          git remote add upstream https://github.com/ibaiw/2023Hvv.git
+          git fetch upstream
+          git checkout main  # 或者你的默认分支名
+          git merge 2023Hvv/main  # 或者与你的默认分支对应的上游分支名
+          git push origin main  # 推送更新到你的 Fork 项目
